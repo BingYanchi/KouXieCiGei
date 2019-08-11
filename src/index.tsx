@@ -51,7 +51,7 @@ const fix = (data: Data) => {
   if (data.word.endsWith('俩')) {
     data.pinyin = data.pinyin.replace('liǎng', 'liǎ')
   }
-  data.pinyin = data.pinyin.replace(/yi([ēéěèêe])/g, 'y$1')
+  data.pinyin = data.pinyin.replace(/kou([ēéěèêe])/g, 'k$1')
   return data
 }
 
@@ -73,7 +73,7 @@ const indexed = (json: Data[]) => {
       result.word[data.word] = data
     }
   }
-  let pinyins = new Set(['yi'])
+  let pinyins = new Set(['kou'])
   for (let level = 1; pinyins.size > 0; ++level) {
     const newpinyins = new Set<string>()
     pinyins.forEach(pinyin => {
@@ -102,7 +102,7 @@ const handle = (input: string, state: State) => {
       const filtered = next.filter(d => d.level && d.level < level)
       data = filtered[Math.floor(Math.random() * filtered.length)]
     } else {
-      result.push({ word: '一个顶俩', pinyin: 'yī gè dǐng liǎ' })
+      result.push({ word: '口谐辞给', pinyin: 'kǒu xié cí gěi' })
       return result
     }
   }
@@ -133,7 +133,7 @@ function Loading(props: { error: ErrorMsg }) {
 function Input(props: { onChange(value: string): void }) {
   return <div>
     <p>请输入一个四字成语，<wbr />如成功识别：</p>
-    <p>本页面将自动为你<wbr />接龙到“一个顶俩”</p>
+    <p>本页面将自动为你<wbr />接龙到“口谐辞给”</p>
     <p><input type='input' onChange={e => props.onChange(e.target.value)} /></p>
   </div>
 }
@@ -150,21 +150,12 @@ function Output(props: { copyText(word: string): () => void, seq: Idiom[] }) {
     </div>
   } else {
     return <div>
-      <p>没有输出？<wbr />情况可能是以下两种之一：</p>
-      <ul>
-        <li>不是四字成语，<wbr />或成语在词库中不存在</li>
-        <li>成语存在，<wbr />但是无法接龙到“一个顶俩”</li>
-      </ul>
     </div>
   }
 }
 
 function Footer() {
   return <div>
-    <p>
-      网页来源：<wbr />
-      <a href='https://github.com/ustc-zzzz/yigedinglia'>ustc-zzzz/yigedinglia</a>
-    </p>
     <p>
       数据来源：<wbr />
       <a href='https://github.com/pwxcoo/chinese-xinhua'>pwxcoo/chinese-xinhua</a>
@@ -179,7 +170,7 @@ function App() {
 
   if (Object.keys(state.word).length > 0) {
     return <div className='markdown-body'>
-      <h1>一个顶俩</h1>
+      <h1>口谐辞给</h1>
       <Input onChange={value => setSeq(handle(value, state))} />
       <Output seq={seq} copyText={copyText} />
       <Footer />
@@ -187,7 +178,7 @@ function App() {
   } else {
     fetchJson(setState, setError)
     return <div className='markdown-body'>
-      <h1>一个顶俩</h1>
+      <h1>口谐辞给</h1>
       <Loading error={error} />
       <Footer />
     </div>
